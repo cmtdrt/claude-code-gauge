@@ -23,14 +23,17 @@ enum GaugeIcon {
 
     private static func draw(_ percent: Int?, in bar: NSRect, base: NSColor) {
         let radius = bar.height / 2
+        let track = NSBezierPath(roundedRect: bar, xRadius: radius, yRadius: radius)
         base.withAlphaComponent(0.3).setFill()
-        NSBezierPath(roundedRect: bar, xRadius: radius, yRadius: radius).fill()
+        track.fill()
 
         if let percent, percent > 0 {
-            let width = max(bar.width * CGFloat(min(percent, 100)) / 100, bar.height)
+            // Clip to the track instead of enforcing a minimum width, so small values stay proportional.
+            NSGraphicsContext.saveGraphicsState()
+            track.addClip()
             color(for: Level(percent: percent), base: base).setFill()
-            NSBezierPath(roundedRect: NSRect(x: bar.minX, y: bar.minY, width: width, height: bar.height),
-                         xRadius: radius, yRadius: radius).fill()
+            NSRect(x: bar.minX, y: bar.minY, width: bar.width * CGFloat(min(percent, 100)) / 100, height: bar.height).fill()
+            NSGraphicsContext.restoreGraphicsState()
         }
 
         let lineWidth: CGFloat = 0.5
