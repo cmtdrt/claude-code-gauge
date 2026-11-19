@@ -18,10 +18,24 @@ Quotas are read with Claude Code's `/usage` command, which never calls the model
 
 ## Requirements
 
-- macOS 14 (Sonoma) or later
+- macOS 14 (Sonoma) or later, Apple silicon or Intel
 - [Claude Code](https://docs.claude.com/en/docs/claude-code/setup) installed and logged in with a Claude subscription (Pro or Max)
 
-## Installation
+## Download
+
+1. Download `claude-code-gauge-x.y.z.zip` from the [latest release](https://github.com/cmtdrt/claude-code-gauge/releases/latest).
+2. Unzip it and move **Claude Code Gauge** to your Applications folder.
+3. Open it. The gauges appear in the menu bar.
+
+The app is not notarized by Apple, so macOS blocks it the first time. To open it anyway, go to **System Settings → Privacy & Security** and click **Open Anyway** next to the Claude Code Gauge message. Or run once in a terminal:
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/Claude Code Gauge.app"
+```
+
+## Build from source
+
+Requires the Apple Command Line Tools (`xcode-select --install`).
 
 ```bash
 git clone https://github.com/cmtdrt/claude-code-gauge.git
@@ -29,11 +43,8 @@ cd claude-code-gauge
 ./scripts/build.sh --install
 ```
 
-The script builds the app, copies it to `/Applications` and launches it.
+The script builds the app, copies it to `/Applications` and launches it. To update, run `git pull` then the same script.
 
-## Updating
+## License
 
-```bash
-git pull
-./scripts/build.sh --install
-```
+[MIT](LICENSE)
