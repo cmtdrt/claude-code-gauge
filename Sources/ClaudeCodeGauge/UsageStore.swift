@@ -50,11 +50,21 @@ final class UsageStore: ObservableObject {
             }
         }
 
-        schedule()
-        if !autoRefreshDisabled { refresh() }
+        let demo = [(50, 30), (78, 54), (98, 76)]
+        var i = 0
+        usage = Usage(session: .init(percent: demo[0].0, resetsAt: nil), week: .init(percent: demo[0].1, resetsAt: nil))
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated {
+                i = (i + 1) % demo.count
+                let reset = Date().addingTimeInterval(3 * 3600)
+                self?.usage = Usage(session: .init(percent: demo[i].0, resetsAt: reset),
+                                    week: .init(percent: demo[i].1, resetsAt: reset.addingTimeInterval(3 * 86_400)))
+            }
+        }
     }
 
     func refresh() {
+        return
         guard !isRefreshing else { return }
         isRefreshing = true
         UsageFetcher.fetch { [weak self] result in
