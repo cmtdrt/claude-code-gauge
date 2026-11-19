@@ -136,13 +136,14 @@ struct GaugeBar: View {
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
-                Capsule().fill(Color.primary.opacity(0.12))
+                Rectangle().fill(Color.primary.opacity(0.12))
                 if let percent, percent > 0 {
-                    Capsule()
+                    Rectangle()
                         .fill(color(for: Level(percent: percent)))
-                        .frame(width: max(geo.size.width * CGFloat(min(percent, 100)) / 100, geo.size.height))
+                        .frame(width: geo.size.width * CGFloat(min(percent, 100)) / 100)
                 }
             }
+            .clipShape(Capsule())
         }
     }
 
