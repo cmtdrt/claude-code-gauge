@@ -26,11 +26,19 @@ enum GaugeIcon {
         base.withAlphaComponent(0.3).setFill()
         NSBezierPath(roundedRect: bar, xRadius: radius, yRadius: radius).fill()
 
-        guard let percent, percent > 0 else { return }
-        let width = max(bar.width * CGFloat(min(percent, 100)) / 100, bar.height)
-        color(for: Level(percent: percent), base: base).setFill()
-        NSBezierPath(roundedRect: NSRect(x: bar.minX, y: bar.minY, width: width, height: bar.height),
-                     xRadius: radius, yRadius: radius).fill()
+        if let percent, percent > 0 {
+            let width = max(bar.width * CGFloat(min(percent, 100)) / 100, bar.height)
+            color(for: Level(percent: percent), base: base).setFill()
+            NSBezierPath(roundedRect: NSRect(x: bar.minX, y: bar.minY, width: width, height: bar.height),
+                         xRadius: radius, yRadius: radius).fill()
+        }
+
+        let lineWidth: CGFloat = 0.5
+        let outline = NSBezierPath(roundedRect: bar.insetBy(dx: lineWidth / 2, dy: lineWidth / 2),
+                                   xRadius: radius - lineWidth / 2, yRadius: radius - lineWidth / 2)
+        outline.lineWidth = lineWidth
+        base.setStroke()
+        outline.stroke()
     }
 
     private static func color(for level: Level, base: NSColor) -> NSColor {
