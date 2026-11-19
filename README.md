@@ -3,6 +3,9 @@
 Your Claude Code quotas at a glance, right in the macOS menu bar.
 
 Two small gauges show the current session (top) and the current week (bottom). They turn orange at 70% and red at 90%. Click them for exact percentages, reset times and refresh settings.
+<p align="center">
+  <img width="304" height="271" alt="image" src="https://github.com/user-attachments/assets/ae30ec09-70e1-424a-ac01-4846ec047786" />
+</p>
 
 Quotas are read with Claude Code's `/usage` command, which never calls the model: checking them uses no tokens.
 
